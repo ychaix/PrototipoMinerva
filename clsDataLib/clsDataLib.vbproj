@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{02A058C6-D414-4A9A-A15B-733E6E90A922}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>clsDataLib</RootNamespace>
+    <AssemblyName>clsDataLib</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>clsDataLib.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>clsDataLib.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClasesDB\AS\clsBitacoraDB.vb" />
+    <Compile Include="ClasesDB\AS\clsFiltrosDB.vb" />
+    <Compile Include="ClasesDB\AS\clsPerfilDB.vb" />
+    <Compile Include="ClasesDB\AS\clsUsuarioDB.vb" />
+    <Compile Include="ClasesDB\clsInd_AtrTxDB.vb" />
+    <Compile Include="ClasesDB\clsInd_ITxDB.vb" />
+    <Compile Include="ClasesDB\clsInd_KitOJuegoDB.vb" />
+    <Compile Include="ClasesDB\clsInd_MetaDatoTraducidoDAtrTxDB.vb" />
+    <Compile Include="ClasesDB\clsInd_RelVITxDB.vb" />
+    <Compile Include="ClasesDB\clsInd_TipoAtributosDB.vb" />
+    <Compile Include="ClasesDB\clsInd_TipoRelVTxDB.vb" />
+    <Compile Include="ClasesDB\clsInd_TxDB.vb" />
+    <Compile Include="ClasesDB\clsInd_TxDITxDB.vb" />
+    <Compile Include="ClasesDB\clsInd_TxTraducidoDB.vb" />
+    <Compile Include="Clases\AS\clsBitacora.vb" />
+    <Compile Include="Clases\AS\clsFiltros.vb" />
+    <Compile Include="Clases\AS\clsPerfil.vb" />
+    <Compile Include="Clases\AS\clsUsuario.vb" />
+    <Compile Include="Clases\clsInd_AtrTx.vb" />
+    <Compile Include="Clases\clsInd_ITx.vb" />
+    <Compile Include="Clases\clsInd_KitOJuego.vb" />
+    <Compile Include="Clases\clsInd_MetaDatoTraducidoDAtrTx.vb" />
+    <Compile Include="Clases\clsInd_RelVITx.vb" />
+    <Compile Include="Clases\clsInd_TipoAtributos.vb" />
+    <Compile Include="Clases\clsInd_TipoRelVTx.vb" />
+    <Compile Include="Clases\clsInd_Tx.vb" />
+    <Compile Include="Clases\clsInd_TxDITx.vb" />
+    <Compile Include="Clases\clsInd_TxTraducido.vb" />
+    <Compile Include="clsDB.vb" />
+    <Compile Include="listas\listInd_AtrTx.vb" />
+    <Compile Include="listas\listInd_ITx.vb" />
+    <Compile Include="listas\listInd_KitOJuego.vb" />
+    <Compile Include="listas\listInd_MetaDatoTraducidoDAtrTx.vb" />
+    <Compile Include="listas\listInd_RelVITx.vb" />
+    <Compile Include="listas\listInd_TipoAtributos.vb" />
+    <Compile Include="listas\listInd_TipoRelVTx.vb" />
+    <Compile Include="listas\listInd_Tx.vb" />
+    <Compile Include="listas\listInd_TxDITx.vb" />
+    <Compile Include="listas\listInd_TxTraducido.vb" />
+    <Compile Include="listas\SortableBindingList.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

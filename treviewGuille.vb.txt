@@ -1,0 +1,254 @@
+ '------------------------------------------------------------------------------
+    ' Prueba de Treeview                                                (05/Oct/02)
+    ' Este código puede servir para saber cómo realizar tareas comunes con un Treeview
+    ' El tipo de control usado es el incluido en:
+    ' Microsoft Windows Common Controls 6.0 (SP4) (MsComCtl.ocx)
+    '
+    ' ©Guillermo 'guille' Som, 2002
+    '------------------------------------------------------------------------------
+    Option Explicit On
+
+    Private Sub chkLabelAuto_Click()
+        ' Cambiar la forma de editar el texto de un nodo
+        If chkLabelAuto.Value = vbChecked Then
+            TreeView1.LabelEdit = tvwAutomatic
+        Else
+            TreeView1.LabelEdit = tvwManual
+        End If
+    End Sub
+
+    Private Sub cmdAdd_Click()
+        ' Añadir el contenido del Text1 al nodo actual
+        Dim tNodo As Node
+        Dim sP As String, sH As String
+        Dim i As Long
+    '
+    ' El nodo que está actualmente seleccionado
+    Set tNodo = TreeView1.SelectedItem
+    ' la clave de este nodo
+    sP = tNodo.Key
+        ' cuantos hijos tiene
+        i = tNodo.Children
+        '
+        ' Si da error, incrementar el valor de i e ir probando...
+        On Error Resume Next
+        Do
+            i = i + 1
+            sH = sP & "-" & CStr(i)
+            Err = 0
+            ' Añadirlo como nodo hijo del seleccionado
+            TreeView1.Nodes.Add sP, tvwChild, sH, Text1
+        ' Si no da error, salir del bucle
+            If Err() = 0 Then Exit Do
+        Loop
+    End Sub
+
+    Private Sub cmdBorrarNodo_Click()
+        Dim tNodo As Node
+        Dim i As Long
+    '
+    ' El nodo que está actualmente seleccionado
+    Set tNodo = TreeView1.SelectedItem
+    i = tNodo.Children
+        '
+        ' Avisar que se va a borrar un nodo que tiene hijos
+        If i > 0 Then
+            If MsgBox("¿Quieres borrar el nodo con " & CStr(i) & " hijos?", vbQuestion Or vbYesNo, "Borrar nodos") = vbNo Then
+                Exit Sub
+            End If
+        End If
+        TreeView1.Nodes.Remove tNodo.Index
+End Sub
+
+    Private Sub cmdLlenarTree_Click()
+        ' Añadimos algunos nodos de ejemplo
+        Dim i As Long, j As Long
+        Dim sP As String, sH As String
+        '
+        Randomize()
+        '
+        ' Borrar los nodos anteriores
+        TreeView1.Nodes.Clear
+        For i = 1 To 5
+            ' La clave del nodo actual
+            sP = "nodo" & CStr(i)
+            TreeView1.Nodes.Add , , sP, "Un nodo en la rama " & CStr(i)
+        ' Añadir nodos en las distintas ramas
+            For j = 1 To Int(Rnd() * 4) + 2
+                ' La clave del nodo hijo, relativo al nodo sP
+                sH = sP & "-" & CStr(j)
+                TreeView1.Nodes.Add sP, tvwChild, sH, "Nodo " & CStr(j) & " en la rama de " & sP
+        Next
+        Next
+        '    TreeView1.Nodes.Add , , "uno", "Un nodo en la primera rama"
+        '    TreeView1.Nodes.Add , , "dos", "Un nodo en la segunda rama"
+        '    TreeView1.Nodes.Add , , "tres", "Un nodo en la tercera rama"
+        '    ' Para añadir nodos en las distintas ramas
+        '    TreeView1.Nodes.Add "uno", tvwChild, "tres-uno", "Un nodo en la el nodo de la tercera rama"
+    End Sub
+
+    Private Sub cmdLosMenus_Click()
+        ' Añadir al treeview el contenido de los menús
+        TreeView1.Nodes.Clear
+        '
+        ' Es importante que los submenús de un menú
+        ' empiecen con el mismo nombre que el padre.
+        IniciarNodos "Archivos", "mnuArchivo"
+    ' Y hay que tener cuidado con menús que empiecen con el mismo nombre,
+        ' pero no estén relacionados...
+        ' (por eso ha sido lo de usar el nombre mnuArchivoGuardarM)
+        IniciarNodos "Guardar", "mnuArchivoGuardarM", "Archivos"
+    IniciarNodos "Edición", "mnuEdicion"
+    IniciarNodos "Ayuda", "mnuAyuda"
+End Sub
+
+    Private Sub cmdSubst_Click()
+        ' Substituir el texto del nodo seleccionado
+        ' por el contenido del Text1
+        TreeView1.SelectedItem.Text = Text1
+    End Sub
+
+    Private Sub Form_Load()
+        ' Configuramos manualmente el Treeview
+        With TreeView1
+            .Style = tvwTreelinesPlusMinusText
+            .LineStyle = tvwRootLines
+            .PathSeparator = "\"
+            .Indentation = Screen.TwipsPerPixelX * 5 '256
+            '
+            ' No permitir la edición automática del texto
+            .LabelEdit = tvwManual
+            ' Para que se pueda expandir al seleccionar un nodo,
+            ' cambia este valor a True,
+            ' si se deja en False, tendrás que hacer doble-click
+            .SingleSel = False
+            ' Para que al perder el foco,
+            ' se siga viendo el que está seleccionado
+            .HideSelection = False
+            '
+            .Refresh
+        End With
+        '
+        Text1 = ""
+        Text2 = ""
+        Text3 = ""
+        '
+        ' Llenar el Treeview con algunos nodos
+        cmdLlenarTree_Click()
+    End Sub
+
+    Private Sub mnuArchivoCerrar_Click()
+        Unload Me
+End Sub
+
+    Private Sub mnuAyudaAcerca_Click()
+        MsgBox "Prueba de Treeview" & vbCrLf & vbCrLf & "Ejemplo de las páginas del Guille:" & vbCrLf & "http://www.elguille.info/", vbInformation, "Acerca de..."
+End Sub
+
+    Private Sub Text1_GotFocus()
+        ' Seleccionar todo el texto al entrar en el Text1
+        With Text1
+            .SelStart = 0
+            .SelLength = Len(.Text)
+        End With
+    End Sub
+
+    Private Sub TreeView1_AfterLabelEdit(Cancel As Integer, NewString As String)
+        ' El nuevo texto después de editarlo manualmente
+        Text3 = NewString
+    End Sub
+
+    Private Sub TreeView1_BeforeLabelEdit(Cancel As Integer)
+        ' El texto antes de editarlo
+        Text2 = TreeView1.SelectedItem.Text
+    End Sub
+
+    Private Sub TreeView1_Click()
+        Dim sOp As String
+        '
+        sOp = TreeView1.SelectedItem.Key
+        '
+        ' Salir si no es un menú...
+        If Left$(sOp, 3) <> "mnu" Then Exit Sub
+        '
+        Text1 = " Has seleccionado el menú: " & sOp
+        Select Case sOp
+            Case "mnuArchivoCerrar"
+                If MsgBox("¿Quieres cerrar el programa?", vbQuestion Or vbYesNo, "Cerrar") = vbYes Then
+                    mnuArchivoCerrar_Click()
+                End If
+            Case "mnuAyudaAcerca"
+                mnuAyudaAcerca_Click()
+                '    Case Else
+                '        Text1 = " Has seleccionado el menú: " & sOp
+        End Select
+    End Sub
+
+    Private Sub TreeView1_NodeClick(ByVal Node As MSComctlLib.Node)
+        ' Cuando se pulsa en un nodo
+        Dim s As String
+        '
+        s = Node.Text
+        If Node.Children > 0 Then
+            s = s & ", tiene " & Node.Children & " hijos"
+        Else
+            s = s & ", no tiene hijos"
+        End If
+        Text1 = s
+    End Sub
+
+    Private Sub IniciarNodos(ByVal sID As String,
+                             ByVal sMenu As String,
+                             Optional ByVal sParent As String = "")
+        ' Asignar al treeview el contenido del menú indicado
+        Dim s As String, sC As String
+        Dim i As Long
+        Dim tControl As Control
+        Dim tMenu As Menu
+        Dim tNode As Node
+        '
+        i = Len(sMenu)
+        '
+        On Error Resume Next
+        '
+        If Len(sParent) Then
+        ' Comprobar si ya existe ese nodo,
+        ' para usar la misma rama...
+        Set tNode = TreeView1.Nodes(sMenu)
+        If tNode Is Nothing Then
+                ' Si no existe, se crea una nueva
+                s = sID
+                sID = sParent & sID
+            Set tNode = TreeView1.Nodes.Add(sParent, tvwChild, sID, s)
+        Else
+                sID = tNode.Key
+            End If
+        Else
+        Set tNode = TreeView1.Nodes.Add(, , sID, sID)
+        ' Sólo expandir los nodos principales
+        ' (quita el comentario para que se expanda el nodo)
+        'tNode.Expanded = True
+    End If
+        For Each tControl In Me.Controls
+            If TypeOf tControl Is Menu Then
+            Set tMenu = tControl
+            s = tMenu.Name
+                Select Case sMenu
+                    Case s
+                ' nada
+                    Case Left$(s, i)
+                        sC = tMenu.Caption
+                        ' Quitar los ampersands
+                        sC = Replace(sC, "&", "")
+                        Err = 0
+                        Call TreeView1.Nodes.Add(sID, tvwChild, s, sC)
+                        If Err() Then
+                            ' Ya existe el nodo, borrarlo y crear el nuevo
+                            TreeView1.Nodes.Remove s
+                    Call TreeView1.Nodes.Add(sID, tvwChild, s, sC)
+                        End If
+                End Select
+            End If
+            Err.Clear()
+        Next
+    End Sub
